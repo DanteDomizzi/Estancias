@@ -1,0 +1,57 @@
+#! /usr/bin/python
+
+from subprocess import *
+import sys
+
+ejecucion = None
+result = ''
+
+
+def escribir(result,ruta):
+	fo = open(ruta, "a+")
+	fo.write(result)
+	fo.close()
+
+for i in range(30):
+	print i
+	ejecucion = Popen(['python','ED.py','2000','30','100','-100','1'], stdout=PIPE, stdin=PIPE)
+	result = ejecucion.stdout.read()
+	ejecucion.stdout.close()
+	escribir(result,"resultados.txt")
+	
+
+ejecucion = Popen(['python','graficar.py','resultados.txt','4500'], stdout=PIPE, stdin=PIPE)
+print ejecucion.stdout.read()
+ejecucion = ejecucion.communicate()
+
+####################################################################################################################
+
+ejecucion = None
+result = ''
+
+for i in range(30):
+	print i
+	ejecucion = Popen(['python','ED.py','2000','30','10','-10','2'], stdout=PIPE, stdin=PIPE)
+	result = ejecucion.stdout.read()
+	ejecucion.stdout.close()
+	escribir(result,"resultados2.txt")
+
+ejecucion = Popen(['python','graficar.py','resultados2.txt','4500'], stdout=PIPE, stdin=PIPE)
+print ejecucion.stdout.read()
+ejecucion = ejecucion.communicate() 
+
+##########################################################################################################################
+
+ejecucion = None
+result = ''
+
+for i in range(30):
+	print i
+	ejecucion = Popen(['python','ED.py','2000','30','100','-100','3'], stdout=PIPE, stdin=PIPE)
+	result = ejecucion.stdout.read()
+	ejecucion.stdout.close()
+	escribir(result,"resultados3.txt")
+
+ejecucion = Popen(['python','graficar.py','resultados3.txt','4500'], stdout=PIPE, stdin=PIPE)
+print ejecucion.stdout.read()
+ejecucion = ejecucion.communicate()
