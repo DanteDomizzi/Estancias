@@ -1,0 +1,467 @@
+\documentclass[
+]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel} %USAR ESPAÑOL
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{mathtools}
+\usepackage{algorithmic}
+\usepackage{multirow, array} % para las tablas
+\usepackage{float} % para usar [H]
+%\input{spanishAlgorithmic}
+
+\usepackage{vmargin}
+
+%TITULO Y AUTORES
+\title{USO DE LA INTELIGENCIA COMPUTACIONAL PARA RESOLVER PROBLEMAS DE AGRUPAMIENTO}
+\author{Dante Domizzi Sánchez Gallegos}
+\date{Diciembre de 2014}
+
+
+%DOCUMENTO==========================================================
+\begin{document}
+
+
+
+\setpapersize{A4}
+\setmargins{2.5cm}       % margen izquierdo
+{1.5cm}                        % margen superior
+{16.5cm}                      % anchura del texto
+{23.42cm}                    % altura del texto
+{10pt}                           % altura de los encabezados
+{1cm}                           % espacio entre el texto y los encabezados
+{0pt}                             % altura del pie de página
+{2cm}                           % espacio entre el texto y el pie de página
+
+
+\maketitle 
+\setcounter{tocdepth}{2} %NUMERO DE PAGINA
+\newpage
+%\topmargin -.5in
+\tableofcontents 
+\listoffigures
+\listoftables 
+\input{spanishAlgorithmic}
+\listofalgorithms
+\newpage
+%INTRODUCCION -----------------------------------------------
+\section{Introducción}
+En la actualidad encontramos grandes problemas que requieren una solución, muchas veces esa solución es encontrada, pero en otras ocasiones el problema es tan complejo que no es fácil encontrarle una solución. La inteligencia computacional busca resolver problemas, donde los métodos tradicionales no son aptos para resolverlo. 
+\newline
+\newline
+Durante la realización de las estancias, se trabajo con diferentes algoritmos, como el algoritmo PSO y un algoritmo de evolución diferencial. Esto con el fin de conocer como funcionan, además de familiarizarse un poco mas con la inteligencia computacional.
+Los resultados de estos algoritmos, también se incluyeron en el trabajo presentado.
+\newline
+\newline
+Este trabajo se ha realizado con el fin de conocer acerca de la inteligencia computacional y otras ramas derivadas como la computación evolutiva, la programación evolutiva, los algoritmos genéticos, entre otros.
+\newline
+\newline
+
+Además, se abordara el tema de algoritmos de clustering, que surgen de la necesidad del ser humano de agrupar cosas parecidas entre sí, agrupándolas en grupos con características similares.
+\newline
+\newline
+
+Por ultimo, se describirá un método de clustering combinado con un algoritmo de evolución diferencial, donde se expondrán resultados de este clustering comparados con otra técnica de clusters para comprobar su eficiencia.
+
+\newpage
+
+%INTELIGENCIA COMPUTACIONAL ---------------------------------
+\section{Inteligencia computacional}
+La Inteligencia Computacional (IC) es una rama de la inteligencia artificial centrada en el estudio de mecanismos adaptativos para permitir el comportamiento inteligente de sistemas complejos y cambiantes.
+
+La IC combina elementos de aprendizaje, adaptación, evolución y lógica difusa para crear programas inteligentes.
+
+La IC tiene como objetivo, comprender los principios que posibilitan el comportamiento inteligente (en sistemas naturales o artificiales).
+
+Se basa en el estudio de agentes inteligentes. Un agente inteligente tiene las siguientes características:
+\begin{itemize}
+	\item Adecuación de las acciones a los fines y circunstancias.
+	\item Flexibilidad a los cambios de entornos y fines.
+	\item Aprendizaje de la experiencia.
+	\item Toma decisiones adecuadas.
+\end{itemize} 
+
+\section{Computación Evolutiva}
+La computación evolutiva (en adelante CE) es una de las ramas de la Inteligencia Artificial que se aplica para la resolución de problemas de optimización combinatoria. La CE esta inspirada en los mecanismos de la evolución y selección natural (Neo-Darwinismo), y utilizando operadores genéticos mantienen una población de individuos en constante evolución.
+
+Durante los años 60 y 70, varias corrientes de investigación independientes comenzaron a formar lo que ahora se conoce como computación evolutiva:
+\begin{itemize}
+	\item Programación evolutiva.
+	\item Estrategias evolutivas.
+	\item Algoritmos genéticos.
+\end{itemize} 
+
+\section{Neodarwinismo}
+El neodarwinismo también llamado teoría sintética de la evolución, es básicamente el intento de fusionar el darwinismo clásico con la genética moderna.
+
+Según esta teoría la variación genética de las poblaciones surge por azar mediante la mutación (ahora se considera que está causada por errores en la replicación del ADN) y la recombinación (la mezcla de los cromosomas homólogos durante la meiosis). La evolución consiste básicamente en los cambios en la frecuencia de los alelos entre las generaciones, como resultado de la deriva genética, el flujo genético y la selección natural. La especiación podría ocurrir gradualmente cuando las poblaciones están aisladas reproductivamente.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[]{neo}
+  \caption{Teorías evolucionistas.}
+  \label{fig:neo}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.9\textwidth]{Metafora_evolutiva}
+  \caption{Metáfora Evolutiva}
+  \label{fig:ejemplo}
+\end{figure}
+
+\section{Algoritmo Evolutivo}
+Los algoritmos evolutivos son métodos de optimización y búsqueda de soluciones basados en los postulados de la evolución biológica. Las entidades que representan al problema se denominan individuos o cromosomas, y el conjunto de éstos, población. Estos individuos, son modificados por operadores genéticos (sobrecruzamiento, mutación, selección). Los individuos que representan las soluciones más adecuadas al problema tienen más probabilidades de sobrevivir, la población va mejorando gradualmente.
+A continuación se muestra el pseudocódigo de un algoritmo evolutivo genérico.
+\begin{algorithm}
+\begin{algorithmic}[1]
+\STATE $t = 0$
+\STATE Inicialización $P(t)$
+\STATE Evaluación $P(t)$
+\REPEAT
+\STATE $P\text{'}(t) = \text{variación}[P(t)]$
+\STATE $Evaluación[P'(t)]$
+\STATE $P(t+1) = selección[P'(t) U Q]$
+\STATE $t = t+1$
+\UNTIL {No se cumpla condición de término}
+\end{algorithmic}
+\caption{Pseudocódigo de un algoritmo evolutivo genérico}\label{alg:algoritmoEvolutivo}
+\end{algorithm}
+
+\subsection{Paradigmas}
+Suele hablarse de tres paradigmas principales de algoritmos evolutivos:
+\begin{itemize}
+	\item Algoritmos genéticos.
+	\item Estrategias evolutivas.
+	\item Programación evolutiva.
+	
+	
+\end{itemize}
+
+\subsection{Algoritmo genético}
+Estos algoritmos hacen evolucionar una población de individuos sometiéndola a acciones aleatorias semejantes a las que actúan en la evolución biológica (mutaciones y recombinaciones genéticas) para después selecciones los individuos mas aptos.
+\subsubsection{Funcionamiento}
+Los algoritmos genéticos funcionan entre el conjunto de soluciones de un problema llamado fenotipo, y el conjunto de individuos de una población natural, codificando la información de cada solución en una cadena, generalmente binaria, llamada cromosoma. Los símbolos que forman la cadena son llamados los genes. Cuando la representación de los cromosomas se hace con cadenas de dígitos binarios se le conoce como genotipo. Los cromosomas evolucionan a través de iteraciones, llamadas generaciones. En cada generación, los cromosomas son evaluados usando alguna medida de aptitud. Las siguientes generaciones (nuevos cromosomas), son generadas aplicando los operadores genéticos repetidamente, siendo estos los operadores de selección, cruzamiento, mutación y reemplazo.
+
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.7\textwidth]{genetico}
+  \caption{Algoritmo genético i: inicialización, f(X): evaluación, ?: condición de término, Se: selección, Cr: cruzamiento, Mu: mutación, Re: reemplazo, X*: mejor solución.}
+  \label{fig:ejemplo}
+\end{figure}
+
+\subsection{Estrategias evolutivas}
+En las estrategias evolutivas, cada individuo de la población es un posible óptimo de la función objetivo; cada individuo esta compuesto por dos tipos de variables: las variables objeto y las variables estratégicas. Las variables objeto son los posibles valores para alcanzar el óptimo global, mientras que las variables estratégicas indican de qué manera las variables objeto son afectadas por la mutación.
+
+\subsection{Programación Evolutiva}
+En la Programación Evolutiva (PE) los individuos son ternas (tripletas) cuyos valores representan estados de autómata finito. Cada terna esta formado por:
+\begin{itemize}
+	\item El valor del estado actual.
+	\item Un símbolo del alfabeto utilizado.
+	\item El valor del nuevo estado.
+\end{itemize}
+
+Las funciones de selección, cruce (crossover) y mutación deben variar para adaptarse y funcionar con una población de individuos de este tipo.
+
+\section{Metaheurística}
+Es un método heurístico para resolver un tipo de problema computacional general, usando los parámetros dados por el usuario sobre unos procedimientos genéricos y abstractos de una manera que se espera eficiente.
+
+Generalmente se aplican a problemas que no tienen un algoritmo o heurística específica que dé una solución satisfactoria.
+\subsection{Particle Swarm Optimization (PSO)}
+Es una series de métodos y algoritmos de optimización heurísticos que evocan el comportamiento de los enjambres de abejas en la naturaleza.
+
+PSO permite optimizar un problema a partir de una población de soluciones candidatas, denotadas como "partículas", moviendo éstas por todo el espacio de búsqueda según reglas matemáticas que tienen en cuenta la posición y la velocidad de las partículas.
+\begin{algorithm}
+\begin{algorithmic}[1]
+\FOR{cada partícula $i$}
+\STATE Inicializar $x_i$ y $v_i$ aleatoriamente
+\STATE Evaluar $x_i$ en la función de aptitud
+\STATE Inicializar $y_i = x_i$
+\ENDFOR
+\STATE Seleccionar $\hat{y}_i$
+\REPEAT
+\FOR{cada partícula $i$}
+\FOR{cada dimensión $j$}
+\STATE Calcular la velocidad de $v_{ij}$ usando: \newline$v_{ij}(t+1) = wv_{ij}(t) + c_ir_i(t)(y_{ij}(t)-x_{ij}(t)) + c_2r_{2j}(t)(\hat{y}_ij(t) - x_{ij}(t))$
+\STATE Actualizar la posición de $x_{ij}$ usando:
+\newline $x_{ij}(t+1) = x_{ij}(t) + v_{ij}(t+1)$
+\ENDFOR
+\STATE Evaluar la nueva posición de $x_i$
+\IF {$x_i \leq y_i$}
+\STATE $y_i = x_i$
+\ENDIF
+\IF {$x_i \leq \hat{y}_i$}
+\STATE $\hat{y}_i = x_i$
+\ENDIF
+\ENDFOR
+\UNTIL alcanzar el criterio de terminación
+\end{algorithmic}
+\caption{Algoritmo de PSO versión $gbest$}\label{alg:algoritmoPSO}
+\end{algorithm}
+
+\subsection{Aplicación de PSO}
+Los algoritmos PSO se pueden clasificar en dos tipos: PSO Local y PSO Global. En esta aplicación, se utilizo el PSO Global (\ref{alg:algoritmoPSO}).
+En el PSO Global, la distancia en el componente social viene dada por la diferencia entre la posición de la partícula actual y la posición de la mejor partícula encontrada en el cúmulo completo $gBest_i$.
+
+Este algoritmo fue probado con tres funciones benchmark diferentes, que son las siguientes:
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Function & Dim & Range & $f_{mim}$ \\
+		\hline
+		 & & & \\
+		$f_1(x) = \sum_{i=1}^n x^2_i$ & 30 & [-100,100] & 0 \\
+		& & & \\
+		$f_2(x) = \sum_{i=1}^n |x_i| + \prod_{i=1}^n|x_i|$ & 30 & [-10,10] & 0 \\
+		& & & \\
+		$f_3(x) = \sum_{i=1}^n(\sum_{j=1}^ix_j)^2$ & 30 & [-100,100] & 0 \\
+		& & & \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Los resultados obtenidos de la ejecución del algoritmo fueron representados por medio de gráficos de dispersión, que serán mostrados a continuación:
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=1\textwidth]{graficas}
+  \caption{(1)Función Benchmark 1,(2)Función Benchmark 2,(3)Función Benchmark 3}
+  \label{fig:function1PSO}
+\end{figure}
+
+Las tres funciones dieron resultados favorables, ya que se puede observar que la posición del Gbest se va a acercando a cero con cada iteración del algoritmo. 
+
+
+\newpage
+\section{Evolución Diferencial}
+Es un método de optimización, aplicado en la resolución de problemas complejos. La ED mantiene una población de soluciones candidatas, las cuales se recombinan y mutan para producir nuevos individuos de los cuales se recombinan y mutan para producir nuevos individuos los cuales serán elegidos de acuerdo al valor de su función de desempeño.
+\subsection{Algoritmo}
+\begin{algorithm}
+\begin{algorithmic}[1]
+\STATE Generar una población inicial aleatoria: $P^{(1)} = (\vec{x}^{(1)}_{1},\vec{x}^{(1)}_{2},...,\vec{x}^{(1)}_{N})$ 
+\STATE Evaluar cada individuo de la población: $f(\vec{x}_{i}, i = 1,2,...,N$
+\FOR{ $g = 1$ to $g_{max}$}
+\FOR{ $i = 1$ to $N$}
+\STATE Seleccionar de forma aleatoria $r_1, r_2, r_3 \in [1,2,...,N], r_1 \not= r_2 \not= r3$
+\STATE Seleccionar de forma aleatoria $j_{rand} \in [1,2,...,n]$
+\FOR{$j = 1$ to $n$}
+\IF{$rand[0, 1) < CR$ or $j = j_{rand}$}
+\STATE $u^{(g+1)}_{i,j} = x^{(g)}_{r_{3},j} + F(x^{(g)}_{r_{1},j} - x^{(g)}_{r_{2},j})$
+\ELSE
+\STATE $u^{(g+1)}_{i,j} = x^{(g)}_{i,j}$
+\ENDIF
+\ENDFOR
+\IF {$f(\vec{u}^{(g+1)}_{i}) \leq f(\vec{x}^{(g)}_{i})$}
+\STATE $\vec{x}^{(g+1)}_i = \vec{u}^{(g+1)}_i$
+\ELSE
+\STATE $\vec{x}^{(g+1)}_i = \vec{x}^{(g)}_i$
+\ENDIF
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\caption{Evolución Diferencial (DE/rand/1/bin)}\label{alg:algoritmoED}
+\end{algorithm}
+
+El i-ésimo vector individual (cromosoma) de la población en la generación $t$ tiene componentes $d$ (dimensiones).
+
+\begin{equation}\label{eq:cromo}
+\vec{Z}_i(t) = [Z_{i,1}(t),Z_{i,2}(t),...,Z_{i,d}(t)].
+\end{equation}
+
+Para cada vector individual $\vec{Z}(t)$ que pertenecen a la población actual, DE genera otras tres muestras aleatorias. A continuación. calcula la diferencia de $\vec{Z}_i(t)$ y $\vec{Z}_j(t)$, multiplicando la diferencia por el factor constante $F$ (usualmente $\in [0,1]$), y se suma el resultado a $\vec{Z}_m(t)$. Con esto se crea una descendencia $\vec{U}_i(t+1)$.
+
+\begin{equation}\label{eq:des}
+U_{k,n}(t+1)= \left\lbrace
+\begin{array}{lll}
+Z_{m,n}(t)+F(Z_{i,n}(t))}, & \textup{si }rand_n(0,1)<Cr \\
+Z_{k,n}(t), & \textup{de otra manera.} 
+\end{array}
+\end{equation}
+
+Cr $\in [0,1]$ es un parámetro escalar de el algoritmo, llamado crossover rate. Si la nueva descendencia obtiene un mejor valor de la función objetivo, esta remplaza a su padre en la siguiente generación.
+\begin{equation}\label{eq:des}
+\vec{Z}_i(t+1)= \left\lbrace
+\begin{array}{ll}
+\vec{U}_i(t+1), & si f\left(\vec{U}_i(t+1)\rigth) > f \left(\vec{Z}_i(t) \right) \\
+\vec{Z}(t) & si \left(\vec{U(t+1)} \rigth) \leq f \left(\vec{Z}_i(t) \right)
+\end{array}
+\end{equation}
+
+\subsection{Aplicación}
+El algoritmo de ED, fue aplicado sobre tres formulas de aptitud diferentes. Para representar la funcionalidad del algoritmo con cada una de las funciones, se tomaron los resultados de treinta ejecuciones del algoritmo con cada formula, y se graficaron en gráficas de cajas (boxplot).
+
+\begin{table}[H]
+\centering
+\includegraphics[width=.5\textwidth]{figure_1} \\
+\includegraphics[width=.5\textwidth]{figure_2} \\
+\includegraphics[width=.5\textwidth]{figure_3} \\
+\caption{Resultados ED.}
+\label{Resultados ED}
+\end{table}
+
+\newpage
+\section{Clustering}
+Los Algoritmos de Agrupamiento (Clustering) se basan en responder como es que ciertos Objetos (casos) pertenecen o "caen" naturalmente en cierto número de clases o grupos, de tal manera que estos objetos comparten ciertas características. Estas características son por lo general distancia o similitud. 
+El problema del clustering ha sido abordado por gran cantidad de disciplinas y es aplicable a una gran cantidad de contextos, lo cual refleja su utilidad como uno de los pasos en el análisis experimental de datos.
+El clustering conceptual consiste en dos componentes:
+\begin{itemize}
+	\item Descubre las clases apropiadas.
+	\item Forma descripciones para cada clase, tal y como sucede en la clasificación.
+\end{itemize}
+\subsection{Componentes de una tarea de clustering}
+Los pasos de una tarea de clustering típica se pueden resumir en cinco pasos:
+\begin{itemize}
+	\item Representación del patrón
+	\item Definición de una medida de la proximidad de patrones apropiada para el dominio de los datos.
+	\item Clustering propiamente dicho (agrupamiento de los patrones).
+	\item Abstracción de los datos.
+	\item Evaluación de la salida.
+\end{itemize}
+\subsection{Medidas de distancia}
+Un componente importante de los algoritmos de clustering es la medida de distancia entre dos puntos, que puede ser calculada por medio de la distancia euclidiana que puede calculase de la siguiente manera (\ref{eq:euclidiana}):
+
+\begin{equation}\label{eq:euclidiana}
+d(X,Y) = \sqrt{\sum_{i=1}^n(x_i - y_i)^2}
+\end{equation}
+
+Para datos de grandes dimensiones, una medida popular es la medida Minkowski (\ref{eq:Minkowski}),
+\begin{equation}\label{eq:Minkowski}
+d_p(x_i,x_j) = \left(\sum_{K=1}^d|x_{ik} - x{jk}|^p\right)^{1/p}
+\end{equation}
+donde d son las dimensiones de los datos. La distancia Euclidiana es un caso especial donde $p=2$, mientras que la distancias Manhattan tiene $p=1$.
+
+\subsection{Aplicaciones}
+Las técnicas de agrupamiento encuentran aplicación en diversos ámbitos.
+\begin{itemize}
+	\item En biología para clasificar animales y plantas.
+	\item En medicina para identificar enfermedades.
+	\item En marketing para identificar personas con hábitos de compras similares.
+	\item En teoría de la señal pueden servir para eliminar ruidos.
+	\item En biometría para identificación del locutor o de caras.
+\end{itemize}
+
+\subsection{Técnicas de Clustering}
+Existe un gran número de algoritmos de clustering en la actualidad. En general. los métodos de clusters se pueden agrupar en las siguientes categorías:
+
+\subsubsection{Agrupamiento jerárquico}
+Estos métodos crean una descomposición jerárquica del conjunto de datos. Un método jerárquico puede ser clasificado como aglomerativo o divisorio. En estos métodos una vez que se realiza un paso (unión o división de datos), éste no puede deshacerse.
+\subsubsection{Aglomerativo}
+Este es un acercamiento ascendente: cada observación comienza en su propio grupo, y los pares de grupos son mezclados mientras uno sube en la jerarquía, como se muestra en la figura (\ref{fig:alglomerativo}).
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.5\textwidth]{aglomerativo}
+  \caption{Clustering jerárquico aglomerativo}
+  \label{fig:alglomerativo}
+\end{figure}
+
+
+\subsubsection{Divisivo}
+Este es un acercamiento descendente: todas las observaciones comienzan en un grupo, y se realizan divisiones mientras uno baja en la jerarquía, como se muestra en la figura (\ref{fig:divisivo}).
+
+
+\begin{figure}[h]
+  \centering
+    
+    \includegraphics[width=.5\textwidth]{divisivo}
+  \caption{Clustering jerárquico divisivo}
+  \label{fig:divisivo}
+\end{figure}
+
+
+
+\newpage
+\subsubsection{Métodos particionales}
+Dada una base de datos con $n$ objetos, un método particional construye $k$ grupos de datos, donde cada partición representa a un cluster y $k \leq n$. Esto es, clasifica a los datos en $k$ grupos que satisfacen los siguientes requisitos:
+\begin{itemize}
+	\item Cada grupo debe contener, al menos, un elemento.
+	\item Cada elemento debe pertenecer únicamente a un grupo.
+\end{itemize}
+En este tipo de agrupamiento se requiere de una especificación de un número de grupos que desean tener como solución final. La técnica comienza asignando, ya sea de forma aleatoria o en base a algún criterio, a los objetos en cada grupo.
+\subsubsection{Algoritmo estándar}
+\begin{enumerate}
+\item $k$ centroides iniciales son generados aleatoriamente dentro de un conjunto de datos.
+\item $k$ grupos son generados asociándole el punto.
+\item El centroide de cada uno de los k grupos se recalcula.
+\item Se repiten los pasos 2 y 3 hasta que se logre la convergencia.
+\end{enumerate}
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.5\textwidth]{kmeans}
+  \caption{Algoritmo estándar del agrupamiento no jerárquico}
+  \label{fig:nojerarquico}
+\end{figure}
+
+\subsubsection{Métodos basados en densidad}
+La mayoría de los métodos particionales sólo pueden encontrar clusters de forma esférica. Para tratar este efecto, se han desarrollado técnicas de clustering basadas en la noción de densidad.
+La idea de estos algoritmos es aumentar el tamaño del cluster hasta que el número de objetos o datos (densidad) exceda un determinado umbral.
+
+\subsubsection{Métodos basados en grids}
+En éstos, se divide cada dirección del espacio de los datos en cuadrículas (grids). Sobre cada celda se establece una densidad, luego se utiliza esta información para establecer la semejanza entre celdas y la existencia de clusters.
+
+\newpage
+\section{Clustering Híbrido con un Algoritmo Diferencial}
+Este algoritmo es una combinación de una técnica de Clustering con un Algoritmo Diferencial (DE). En este algoritmo primeramente la población es inicializada, de acuerdo a los elementos de un conjunto de datos previamente determinada.
+Dependiendo el numero de clusters a los que se quiere llegar, se generan $n$ centroides aleatorios, con valores en el rango del espacio de búsqueda. Teniendo los centroides se procede a formar los $k$ clusters iniciales. Cada elemento se agrupara con aquel centroide con el que tenga la menor distancia para formar los clusters. Para medir la distancia se uso la distancia euclidiana, descrita anteriormente (\ref{eq:euclidiana}).
+Una vez hecho esto, se procede a aplicar el DE (\ref{alg:algoritmoED}), el cual se modifico para adaptarlo al problema. Mientras que en el DE original $F$ es una constante con valores entre 0 y 1, este algoritmo $F$ es definido por la siguiente formula:
+
+\begin{equation}\label{eq:F}
+F = 0.5*(1+rand(0,1))
+\end{equation}
+
+
+Para evaluar cada individuo de la población, se uso la medida CS (CS measure).
+\subsection{CS measure}
+Antes de evaluar cada individuo, es necesario recalcular los centroides de los cluster, promediando los elementos de cada cluster, esta definido por la siguiente formula:
+
+\begin{equation}\label{eq:cent}
+\vec{m}_i = \frac{1}{N_i} \sum_{x_j\in{C_i}} \vec{x}_j.
+\end{equation}
+
+Una vez obtenidos los centroides normalizados, se procede a evaluar la aptitud del individuo con la formula de la medida CS.
+
+\begin{equation}\label{eq:cent}
+CS(K) = \frac {\frac{1}{K} \sum_{i=1}^K \left [ \frac{1}{N_i} \sum_{\vec{X}_i\in{C_i}} \max_{\vec{X}_q\in{C_i}} \left \lbrace d(\vec{X}_i,\vec{X}_q) \right \rbrace \right ] } {\frac{1}{K} \sum_{i=1}^K \left [ \min_{j \in K, j \not= i} {d(\vec{m}_i, \vec{m}_q)} \right]} \\
+= \frac {\sum_{i=1}^K \left [ \frac{1}{N_i} \sum_{\vec{X}_i\in{C_i}} \max_{\vec{X}_q\in{C_i}} \left \lbrace d(\vec{X}_i,\vec{X}_q) \right \rbrace \right ] } {\sum_{i=1}^K \left [ \min_{j \in K, j \not= i} {d(\vec{m}_i, \vec{m}_q)} \right]}
+\end{equation}
+\subsection{Datos de prueba y resultados}
+Para la ejecución y pruebas del algoritmo de clustering híbrido se utilizo el conjunto de datos artificiales "Pathbased", que esta compuesto por 300 elementos de dos dimensiones y el número de clusters finales es tres.
+Los resultados obtenidos de la ejecución del algoritmo fueron graficados en una gráfica de dispersión, donde cada cluster es representado por un color diferente.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.3\textwidth]{clusterResultados}
+  \caption{Conjunto de datos: Pathbased. $K=3$. $n=300$. $d=2$.}
+  \label{fig:clusterHibrido}
+\end{figure}
+
+Cada elemento, del conjunto de datos, previamente estaba etiquetado con un número correspondiente al cluster al que pertenece. La gráfica correspondiente al conjunto de datos, con sus etiquetas originales, es la siguiente: (\ref{fig:original})
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.3\textwidth]{original}
+  \caption{Clusters Originales}
+  \label{fig:original}
+\end{figure}
+
+La gráfica \ref{fig:jerar}) fue hecha con los resultados de un algoritmo de clustering jerárquico aglomerativo, en donde se usa la distancia mínima como medida de disimilitud entre clusters.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=.3\textwidth]{jerar}
+  \caption{Clustering Jerárquico Aglomerativo}
+  \label{fig:jerar}
+\end{figure}
+
+Haciendo un análisis de las dos gráficas de las técnicas de clustering contra la gráfica de los clusters original, claramente se puede llegar a la conclusión de que el Clustering con Evolución Diferencial es mucho mas eficiente y presenta menos errores comparado con el clustering jerárquico aglomerativo.
+
+\section{Conclusiones}
+La inteligencia computacional nos ayuda a resolver problemas donde las técnicas tradicionales no funcionan bien. Un ejemplo de ello podrían ser en en las técnicas de clustering. Donde los algoritmos clásicos de clustering dejan de ser muy eficientes con grandes conjuntos de datos. 
+Es por esto que se propuso realizar una combinación de clustering con un algoritmo diferencial, para poder mejorar su eficiencia.
+Con base en los resultados obtenidos, se puede concluir que el algoritmo de clustering mejora su funcionamiento cuando se le combina con un algoritmo diferencial. Con el algoritmo diferencial se busca llegar a la mejor solución posible, por medio de los procesos de mutación, recombinación y selección.
+
+\end{document}
